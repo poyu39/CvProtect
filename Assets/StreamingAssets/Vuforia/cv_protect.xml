@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+  <Tracking>
+    <ImageTarget name="kageyama_tobio_card" size="10.500000 10.079557" />
+    <ImageTarget name="shoyo_hinata_card" size="10.500000 10.500000" />
+  </Tracking>
+</QCARConfig>

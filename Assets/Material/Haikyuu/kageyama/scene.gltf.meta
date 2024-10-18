@@ -1,0 +1,109 @@
+fileFormatVersion: 2
+guid: 2b85c227a9ecd5d479edbabb43176194
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 804e1ce4c496647cfa3f1a1134187c71, type: 3}
+  _removeEmptyRootObjects: 1
+  _scaleFactor: 1
+  _deduplicateResources: 0
+  _maximumLod: 300
+  _readWriteEnabled: 1
+  _generateColliders: 0
+  _swapUvs: 0
+  _generateLightmapUVs: 0
+  _importBlendShapeNames: 1
+  _blendShapeFrameWeight:
+    _option: 0
+    _multiplier: 1
+  _importNormals: 0
+  _importTangents: 0
+  _importCamera: 2
+  _importAnimations: 2
+  _mecanimHumanoidFlip: 0
+  _addAnimatorComponent: 0
+  _animationLoopTime: 1
+  _animationLoopPose: 0
+  _importMaterials: 1
+  _enableGpuInstancing: 0
+  _texturesReadWriteEnabled: 1
+  _generateMipMaps: 1
+  _useSceneNameIdentifier: 1
+  _textureCompression: -50
+  _gltfAsset: '<b>Generator: </b>Sketchfab-12.65.0
+
+    <b>Version: </b>2.0
+
+    
+
+    <b>Extras:
+    </b>
+
+    "author": "ArtAitor (https://sketchfab.com/artaitor)"
+
+    "license":
+    "SKETCHFAB Editorial (https://sketchfab.com/licenses)"
+
+    "source": "https://sketchfab.com/3d-models/tobio-kageyama-haikyuu-1ebff7e8a2da46e197bf45367eaa831b"
+
+    "title":
+    "Tobio Kageyama | Haikyuu!!"
+
+'
+  optimizeGameObjects: 0
+  materials:
+  - {instanceID: 0}
+  - {instanceID: 0}
+  - {instanceID: 0}
+  - {instanceID: 0}
+  - {instanceID: 0}
+  - {instanceID: 0}
+  - {instanceID: 0}
+  - {instanceID: 0}
+  - {instanceID: 0}
+  textures:
+  - {fileID: 2800000, guid: debd5675b15f82e42963d833b8095457, type: 3}
+  - {fileID: 2800000, guid: 936c573c778b07849b0ff2898f4fa311, type: 3}
+  - {fileID: 2800000, guid: 970822414dfdbdb4eb68b6bc296308d7, type: 3}
+  - {fileID: 2800000, guid: e9da2e393ca1c1241ada207966efa1f8, type: 3}
+  - {fileID: 2800000, guid: d1d123f7be963e143b03b6def8d39436, type: 3}
+  - {fileID: 2800000, guid: cc5aff822e41bc94f8c3e52aec44db2f, type: 3}
+  - {fileID: 2800000, guid: 6492f10126a20114183288331514c288, type: 3}
+  - {fileID: 2800000, guid: 89f2f9f858343f7498cc5c6db09cd520, type: 3}
+  hasSceneData: 1
+  hasAnimationData: 0
+  hasMaterialData: 1
+  hasTextureData: 1
+  animations: []
+  _extensions: []
+  _textures:
+  - texture: {fileID: 2800000, guid: debd5675b15f82e42963d833b8095457, type: 3}
+    shouldBeLinear: 0
+    shouldBeNormalMap: 0
+  - texture: {fileID: 2800000, guid: 936c573c778b07849b0ff2898f4fa311, type: 3}
+    shouldBeLinear: 0
+    shouldBeNormalMap: 0
+  - texture: {fileID: 2800000, guid: 970822414dfdbdb4eb68b6bc296308d7, type: 3}
+    shouldBeLinear: 0
+    shouldBeNormalMap: 0
+  - texture: {fileID: 2800000, guid: e9da2e393ca1c1241ada207966efa1f8, type: 3}
+    shouldBeLinear: 0
+    shouldBeNormalMap: 0
+  - texture: {fileID: 2800000, guid: d1d123f7be963e143b03b6def8d39436, type: 3}
+    shouldBeLinear: 0
+    shouldBeNormalMap: 0
+  - texture: {fileID: 2800000, guid: cc5aff822e41bc94f8c3e52aec44db2f, type: 3}
+    shouldBeLinear: 0
+    shouldBeNormalMap: 0
+  - texture: {fileID: 2800000, guid: 6492f10126a20114183288331514c288, type: 3}
+    shouldBeLinear: 0
+    shouldBeNormalMap: 0
+  - texture: {fileID: 2800000, guid: 89f2f9f858343f7498cc5c6db09cd520, type: 3}
+    shouldBeLinear: 0
+    shouldBeNormalMap: 0
+  _mainAssetIdentifier: scenes/Sketchfab_Scene
+  _importPlugins: []
