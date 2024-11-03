@@ -11,6 +11,8 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private AudioSource Audio;
     public GameObject Npc1;
     public GameObject Npc2;
+    public GameObject Effect1;
+    public GameObject Effect2;
     private GameObject PlayButton;
     public Sprite PlayImage;
     public Sprite StopImage;
@@ -31,6 +33,13 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         ExitButton = GameObject.Find("ExitButton");
         ExitButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(ExitButtonOnClick);
         PlayButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(PlayButtonOnClick);
+
+        // stop animate
+        Effect1.GetComponent<Animator>().enabled = false;
+        Effect2.GetComponent<Animator>().enabled = false;
+        // hide effect
+        Effect1.SetActive(false);
+        Effect2.SetActive(false);
     }
 
     void Update() {
@@ -64,6 +73,25 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     void NpcOnClick(GameObject npc) {
         Debug.Log("NpcOnClick: " + npc.name);
+        if (npc == Npc1) {
+            Effect1.SetActive(true);
+            Effect1.GetComponent<Animator>().enabled = true;
+            Effect1.GetComponent<Animator>().Play("Effect1", 0, 0);
+            Effect2.SetActive(false);
+            Effect2.GetComponent<Animator>().enabled = false;
+            Effect2.GetComponent<Animator>().Play("Effect2", 0, 0);
+            Audio.clip = Resources.Load<AudioClip>("Audio/1");
+            Audio.Play();
+        } else if (npc == Npc2) {
+            Effect1.SetActive(false);
+            Effect1.GetComponent<Animator>().enabled = false;
+            Effect1.GetComponent<Animator>().Play("Effect1", 0, 0);
+            Effect2.SetActive(true);
+            Effect2.GetComponent<Animator>().enabled = true;
+            Effect2.GetComponent<Animator>().Play("Effect2", 0, 0);
+            Audio.clip = Resources.Load<AudioClip>("Audio/2");
+            Audio.Play();
+        }
     }
 
     void ExitButtonOnClick() {
