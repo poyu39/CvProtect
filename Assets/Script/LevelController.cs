@@ -25,6 +25,7 @@ public class Level {
     private Npc Npc1;
     private Npc Npc2;
     public string Name;
+    private GameObject ScoreBoardTitle = GameObject.Find("ScoreBoardTitle");
     
     public Level(string Name, AudioClip ABF_Audio, AudioClip AFB_Audio, Npc Npc1, Npc Npc2) {
         this.Name = Name;
@@ -32,26 +33,46 @@ public class Level {
         this.AFB_Audio = AFB_Audio;
         this.Npc1 = Npc1;
         this.Npc2 = Npc2;
-        RandomAudio();
     }
     
     private void RandomAudio() {
-        RandomAudioIndex = UnityEngine.Random.Range(0, 2);
+        Random.InitState(System.DateTime.Now.Millisecond);
+        RandomAudioIndex = Random.Range(0, 2);
     }
     
     public void InitScene() {
+        RandomAudio();
+        Debug.Log("Level: " + Name + " RandomAudioIndex: " + RandomAudioIndex);
         Npc1.SpoofEffect.SetActive(false);
         Npc1.BonaFideEffect.SetActive(false);
         Npc2.SpoofEffect.SetActive(false);
         Npc2.BonaFideEffect.SetActive(false);
+        ScoreBoardTitle.SetActive(false);
     }
     
     public AudioClip GetAudio() {
         if (RandomAudioIndex == 0) {
-            return ABF_Audio;
-        } else {
             return AFB_Audio;
+        } else {
+            return ABF_Audio;
         }
+    }
+    
+    public bool ShowAnswer(int ClickedNpcIndex) {
+        if (RandomAudioIndex == 0) {
+            Npc1.SpoofEffect.SetActive(true);
+            Npc2.BonaFideEffect.SetActive(true);
+        } else {
+            Npc1.BonaFideEffect.SetActive(true);
+            Npc2.SpoofEffect.SetActive(true);
+        }
+        if (RandomAudioIndex == ClickedNpcIndex) {
+            ScoreBoardTitle.GetComponent<Image>().sprite = Resources.Load<Sprite>("ScoreBoard/score_success");
+        } else {
+            ScoreBoardTitle.GetComponent<Image>().sprite = Resources.Load<Sprite>("ScoreBoard/score_fail");
+        }
+        ScoreBoardTitle.SetActive(true);
+        return RandomAudioIndex == ClickedNpcIndex;
     }
 }
 
@@ -65,9 +86,9 @@ public class PlayBar {
     private readonly int PointEnd = 700;
     private readonly int ProcessBarLength = 1400;
     private AudioSource Audio;
-    bool isTempPause = false;
-    bool isDragging = false;
-    bool alreadyPlayed = false;
+    private bool isTempPause = false;
+    private bool isDragging = false;
+    private bool alreadyPlayed = false;
     
     public PlayBar(AudioSource Audio, GameObject PlayButton, Sprite PlayImage, Sprite StopImage) {
         this.Audio = Audio;
@@ -161,8 +182,8 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     
     private int CurrentLevel = 0;  // 目前關卡
     
-    // 關卡清單
-    private Level[] LevelMap;
+    private Level[] LevelMap;               // 關卡清單
+    private bool AleadyAnswered = false;    // 已回答過
     
     private GameObject PlayButton;  // 播放按鈕
     private GameObject ExitButton;  // 離開按鈕
@@ -172,23 +193,15 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public Sprite PlayImage;
     public Sprite StopImage;
     
-    private GameObject ScoreBoardTitle;
     public Scene SuccessTitle;
     public Scene FailTitle;
     
-    PlayBar PlayBar1;
-    
-    void UpdateNowAudio() {
-        NowAudio.clip = LevelMap[CurrentLevel].GetAudio();
-        PlayBar1.SetAudio(NowAudio);
-    }
+    private PlayBar PlayBar1;
     
     void Start() {
         NowAudio = GetComponent<AudioSource>();
         PlayButton = GameObject.Find("PlayButton");
         ExitButton = GameObject.Find("ExitButton");
-        
-        ScoreBoardTitle = GameObject.Find("Title");
         
         // 初始化 Npc1 和 Npc2
         Npc1 = new Npc(Npc1Model, Npc1SpoofEffect, Npc1BonaFideEffect);
@@ -230,68 +243,76 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     void Update() {
         // update audio point
         PlayBar1.MapPointToAudio();
-        // phone mode
-        // if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
-        //     Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-        //     RaycastHit hit;
-        //     if (Physics.Raycast(ray, out hit)) {
-        //         if (hit.collider.gameObject == Npc1) {
-        //             NpcOnClick(Npc1);
-        //         } else if (hit.collider.gameObject == Npc2) {
-        //             NpcOnClick(Npc2);
-        //         }
-        //     }
-        // }
-        // // pc mode
-        // if (Input.GetMouseButtonDown(0)) {
-        //     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //     RaycastHit hit;
-        //     if (Physics.Raycast(ray, out hit)) {
-        //         if (hit.collider.gameObject == Npc1) {
-        //             NpcOnClick(Npc1);
-        //         } else if (hit.collider.gameObject == Npc2) {
-        //             NpcOnClick(Npc2);
-        //         }
-        //     }
-        // }
+        NpcOnClickHandler();
     }
     
-    void NpcOnClick(GameObject npc) {
-        // Debug.Log("NpcOnClick: " + npc.name);
-        // if (npc == Npc1) {
-        //     Effect1.SetActive(true);
-        //     Effect1.GetComponent<Animator>().enabled = true;
-        //     Effect1.GetComponent<Animator>().Play("Effect1", 0, 0);
-        //     Effect2.SetActive(false);
-        //     Effect2.GetComponent<Animator>().enabled = false;
-        //     Effect2.GetComponent<Animator>().Play("Effect2", 0, 0);
-        //     ScoreBoardTitle.GetComponent<Image>().sprite = FailTitle;
-        //     ScoreBoardTitle.SetActive(true);
-        //     BackButton.SetActive(true);
-        // } else if (npc == Npc2) {
-        //     Effect1.SetActive(false);
-        //     Effect1.GetComponent<Animator>().enabled = false;
-        //     Effect1.GetComponent<Animator>().Play("Effect1", 0, 0);
-        //     Effect2.SetActive(true);
-        //     Effect2.GetComponent<Animator>().enabled = true;
-        //     Effect2.GetComponent<Animator>().Play("Effect2", 0, 0);
-        //     ScoreBoardTitle.GetComponent<Image>().sprite = SuccessTitle;
-        //     ScoreBoardTitle.SetActive(true);
-        //     NextButton.SetActive(true);
-        // }
+    private void UpdateNowAudio() {
+        NowAudio.clip = LevelMap[CurrentLevel].GetAudio();
+        PlayBar1.SetAudio(NowAudio);
+    }
+    
+    // 延遲換場景
+    private void DelayChangeLevel() {
+        UpdateNowAudio();
+        LevelMap[CurrentLevel].InitScene();
+        AleadyAnswered = false;
+        PlayButton.GetComponent<Button>().interactable = true;
+    }
+    
+    private void NpcOnClickHandler() {
+        if (AleadyAnswered) return;
+        
+        bool isCurrent = false;
+        GameObject[] NpcModels = {Npc1.NpcObject, Npc2.NpcObject};
+        
+        Ray ray = new();    // 射線
+        
+        // phone mode
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
+            ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+        }
+        // pc mode
+        if (Input.GetMouseButtonDown(0)) {
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        }
+        
+        if (Physics.Raycast(ray, out RaycastHit hit)) {
+            for (int i = 0; i < NpcModels.Length; i++) {
+                if (hit.collider.gameObject == NpcModels[i]) {
+                    Debug.Log("Npc " + i + " clicked.");
+                    
+                    isCurrent = LevelMap[CurrentLevel].ShowAnswer(i);
+                    AleadyAnswered = true;
+                    PlayButton.GetComponent<Button>().interactable = false;
+                    
+                    // next level
+                    if (isCurrent) {
+                        CurrentLevel++;
+                        Debug.Log("CurrentLevel: " + CurrentLevel);
+                        if (CurrentLevel >= LevelMap.Length) {
+                            // StartCoroutine(DelayChangeScene("SuccessTitle")); // 延遲換場景
+                        } else {
+                            Invoke("DelayChangeLevel", 5f);
+                        }
+                    }
+                }
+            }
+        }
     }
     
     public void OnBeginDrag(PointerEventData eventData) { }
     
     public void OnDrag(PointerEventData eventData) {
+        if (AleadyAnswered) return;
         PlayBar1.OnDrag(eventData);
     }
     
     public void OnEndDrag(PointerEventData eventData) {
+        if (AleadyAnswered) return;
         PlayBar1.OnEndDrag(eventData);
     }
     
-    void ExitButtonOnClick() {
+    private void ExitButtonOnClick() {
         SceneManager.LoadScene("MainMenu");
     }
 }
