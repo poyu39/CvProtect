@@ -5,6 +5,15 @@ using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 
 
+public static class ScoreBoard {
+    public static int score;
+    
+    static ScoreBoard() {
+        score = 0;
+    }
+}
+
+
 public class Npc {
     public GameObject NpcObject;
     public GameObject SpoofEffect;
@@ -238,6 +247,8 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         ExitButton.GetComponent<Button>().onClick.AddListener(ExitButtonOnClick);
         
         LevelMap[CurrentLevel].InitScene();
+        
+        ScoreBoard.score = 0;
     }
     
     void Update() {
@@ -286,14 +297,13 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     PlayButton.GetComponent<Button>().interactable = false;
                     
                     // next level
-                    if (isCurrent) {
-                        CurrentLevel++;
-                        Debug.Log("CurrentLevel: " + CurrentLevel);
-                        if (CurrentLevel >= LevelMap.Length) {
-                            // StartCoroutine(DelayChangeScene("SuccessTitle")); // 延遲換場景
-                        } else {
-                            Invoke("DelayChangeLevel", 5f);
-                        }
+                    CurrentLevel++;
+                    if (isCurrent) ScoreBoard.score++;
+                    Debug.Log("CurrentLevel: " + CurrentLevel);
+                    if (CurrentLevel >= LevelMap.Length) {
+                        Invoke(nameof(SwitchToFinalScore), 5f);
+                    } else {
+                        Invoke(nameof(DelayChangeLevel), 5f);
                     }
                 }
             }
@@ -314,5 +324,9 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     
     private void ExitButtonOnClick() {
         SceneManager.LoadScene("MainMenu");
+    }
+    
+    private void SwitchToFinalScore() {
+        SceneManager.LoadScene("FinalScore");
     }
 }

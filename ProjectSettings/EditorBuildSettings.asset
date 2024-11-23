@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Haikyuu.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/FinalScore.unity
+    guid: f980393fcda222646818ae6df25381a2
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 67aee7944d910c14e96d88fe0011f4aa,
       type: 2}
