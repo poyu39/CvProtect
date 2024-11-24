@@ -38,13 +38,16 @@ public class Level {
     private Npc Npc2;
     public string Name;
     private GameObject ScoreBoardTitle = GameObject.Find("ScoreBoardTitle");
+    private GameObject Title = GameObject.Find("Title");
+    private string TitleName;
     
-    public Level(string Name, AudioClip ABF_Audio, AudioClip AFB_Audio, Npc Npc1, Npc Npc2) {
+    public Level(string Name, AudioClip ABF_Audio, AudioClip AFB_Audio, Npc Npc1, Npc Npc2, string TitleName) {
         this.Name = Name;
         this.ABF_Audio = ABF_Audio;
         this.AFB_Audio = AFB_Audio;
         this.Npc1 = Npc1;
         this.Npc2 = Npc2;
+        this.TitleName = TitleName;
     }
     
     private void RandomAudio() {
@@ -62,6 +65,7 @@ public class Level {
         Npc2.SpoofEffect.SetActive(false);
         Npc2.BonaFideEffect.SetActive(false);
         ScoreBoardTitle.SetActive(false);
+        Title.GetComponent<Image>().sprite = Resources.Load<Sprite>("Title/" + TitleName);
     }
     
     public AudioClip GetAudio() {
@@ -237,32 +241,38 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 Resources.Load<AudioClip>("Audio/1/ABF"),
                 Resources.Load<AudioClip>("Audio/1/AFB"),
                 Npc2,
-                Npc1),
+                Npc1,
+                "haikayuu_s1_ep1"),
             new("第 2 幕「烏野高校排球部」",
                 Resources.Load<AudioClip>("Audio/2/ABF"),
                 Resources.Load<AudioClip>("Audio/2/AFB"),
                 Npc1,
-                Npc2),
+                Npc2,
+                "haikayuu_s1_ep2"),
             new("第 3 幕「最強の味方」",
                 Resources.Load<AudioClip>("Audio/3/ABF"),
                 Resources.Load<AudioClip>("Audio/3/AFB"),
                 Npc1,
-                Npc2),
+                Npc2,
+                "haikayuu_s1_ep3"),
             new("第 4 幕「決断」",
                 Resources.Load<AudioClip>("Audio/4/ABF"),
                 Resources.Load<AudioClip>("Audio/4/AFB"),
                 Npc1,
-                Npc3),
+                Npc3,
+                "haikayuu_s1_ep11"),
             new("第 5 幕「センターエース」",
                 Resources.Load<AudioClip>("Audio/5/ABF"),
                 Resources.Load<AudioClip>("Audio/5/AFB"),
                 Npc3,
-                Npc1),
+                Npc1,
+                "haikayuu_s2_ep4"),
             new("第 6 幕「育ち盛り」",
                 Resources.Load<AudioClip>("Audio/6/ABF"),
                 Resources.Load<AudioClip>("Audio/6/AFB"),
                 Npc3,
-                Npc1),
+                Npc1,
+                "haikayuu_s2_ep14"),
         };
         
         PlayBar1 = new PlayBar(NowAudio, PlayButton, PlayImage, StopImage);
