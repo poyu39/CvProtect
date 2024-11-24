@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;

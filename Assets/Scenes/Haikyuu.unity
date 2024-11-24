@@ -317,6 +317,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 72111599}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &80726752 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8128668236925612103, guid: 2b85c227a9ecd5d479edbabb43176194,
+    type: 3}
+  m_PrefabInstance: {fileID: 599297455}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &137367806
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,10 +778,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 516964811}
   - {fileID: 137367807}
   - {fileID: 1408281874}
   - {fileID: 72111600}
+  - {fileID: 516964811}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &374301863
@@ -1369,6 +1375,12 @@ PrefabInstance:
     m_AddedComponents: []
   m_SourcePrefab: {fileID: -5645937942226959685, guid: 2b85c227a9ecd5d479edbabb43176194,
     type: 3}
+--- !u!1 &675150465 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8771091787928289351, guid: f9ec3deeb6ceba840be28e9c63aa3957,
+    type: 3}
+  m_PrefabInstance: {fileID: 516964810}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1749,7 +1761,7 @@ GameObject:
   - component: {fileID: 843307780}
   - component: {fileID: 843307779}
   - component: {fileID: 843307778}
-  - component: {fileID: 843307777}
+  - component: {fileID: 843307781}
   m_Layer: 0
   m_Name: kenma
   m_TagString: Untagged
@@ -1757,25 +1769,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &843307777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 843307776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mObserverBehaviour: {fileID: 843307779}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: kozume_kenma_card
-  mDatasetName: Vuforia/cv_protect.xml
-  mCastedBehaviour: {fileID: 843307779}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &843307778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1846,7 +1839,7 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 843307777}
+  mPreview: {fileID: 843307781}
 --- !u!4 &843307780
 Transform:
   m_ObjectHideFlags: 0
@@ -1866,6 +1859,25 @@ Transform:
   - {fileID: 1141892509}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &843307781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843307776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mObserverBehaviour: {fileID: 843307779}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: kozume_kenma_card
+  mDatasetName: Vuforia/cv_protect.xml
+  mCastedBehaviour: {fileID: 843307779}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &981389841
 GameObject:
   m_ObjectHideFlags: 0
@@ -2643,6 +2655,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 827214208}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1479439026 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1aa31268ee43e564688fd0073c1263e1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1951097092}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1500399402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3375,13 +3393,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a06c2f83b05aa914889dcb39744eea15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Npc1Model: {fileID: 137367806}
+  Npc1Model: {fileID: 675150465}
+  Npc1Hitbox: {fileID: 137367806}
   Npc1SpoofEffect: {fileID: 72111601}
   Npc1BonaFideEffect: {fileID: 331603136}
-  Npc2Model: {fileID: 15926639}
+  Npc2Model: {fileID: 80726752}
+  Npc2Hitbox: {fileID: 15926639}
   Npc2SpoofEffect: {fileID: 1141755615}
   Npc2BonaFideEffect: {fileID: 262624456}
-  Npc3Model: {fileID: 1141892508}
+  Npc3Model: {fileID: 1479439026}
+  Npc3Hitbox: {fileID: 1141892508}
   Npc3SpoofEffect: {fileID: 1146774543}
   Npc3BonaFideEffect: {fileID: 1589230368}
   PlayImage: {fileID: 21300000, guid: 09b118d15a0fa6747af293e3b35c5464, type: 3}
