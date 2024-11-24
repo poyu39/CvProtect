@@ -15,12 +15,15 @@ public static class ScoreBoard {
 
 
 public class Npc {
+    public GameObject Model;
+    public GameObject Hitbox;
     public GameObject NpcObject;
     public GameObject SpoofEffect;
     public GameObject BonaFideEffect;
     
-    public Npc(GameObject NpcObject, GameObject SpoofEffect, GameObject BonaFideEffect) {
-        this.NpcObject = NpcObject;
+    public Npc(GameObject Model, GameObject Hitbox, GameObject SpoofEffect, GameObject BonaFideEffect) {
+        this.Model = Model;
+        this.Hitbox = Hitbox;
         this.SpoofEffect = SpoofEffect;
         this.BonaFideEffect = BonaFideEffect;
     }
@@ -52,8 +55,10 @@ public class Level {
     public void InitScene() {
         RandomAudio();
         Debug.Log("Level: " + Name + " RandomAudioIndex: " + RandomAudioIndex);
+        Npc1.Model.SetActive(true);
         Npc1.SpoofEffect.SetActive(false);
         Npc1.BonaFideEffect.SetActive(false);
+        Npc2.Model.SetActive(true);
         Npc2.SpoofEffect.SetActive(false);
         Npc2.BonaFideEffect.SetActive(false);
         ScoreBoardTitle.SetActive(false);
@@ -181,13 +186,21 @@ public class PlayBar {
 public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler{
     public Npc Npc1;    // 日向翔陽
     public GameObject Npc1Model;
+    public GameObject Npc1Hitbox;
     public GameObject Npc1SpoofEffect;
     public GameObject Npc1BonaFideEffect;
     
     public Npc Npc2;    // 影山飛雄
     public GameObject Npc2Model;
+    public GameObject Npc2Hitbox;
     public GameObject Npc2SpoofEffect;
     public GameObject Npc2BonaFideEffect;
+    
+    public Npc Npc3;    // 孤爪研磨
+    public GameObject Npc3Model;
+    public GameObject Npc3Hitbox;
+    public GameObject Npc3SpoofEffect;
+    public GameObject Npc3BonaFideEffect;
     
     private int CurrentLevel = 0;  // 目前關卡
     
@@ -212,26 +225,44 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         PlayButton = GameObject.Find("PlayButton");
         ExitButton = GameObject.Find("ExitButton");
         
-        // 初始化 Npc1 和 Npc2
-        Npc1 = new Npc(Npc1Model, Npc1SpoofEffect, Npc1BonaFideEffect);
-        Npc2 = new Npc(Npc2Model, Npc2SpoofEffect, Npc2BonaFideEffect);
+        // 初始化 Npc
+        Npc1 = new Npc(Npc1Model, Npc1Hitbox, Npc1SpoofEffect, Npc1BonaFideEffect);
+        Npc2 = new Npc(Npc2Model, Npc2Hitbox, Npc2SpoofEffect, Npc2BonaFideEffect);
+        Npc3 = new Npc(Npc3Model, Npc3Hitbox, Npc3SpoofEffect, Npc3BonaFideEffect);
+        
+        HideAllNpc();
         
         LevelMap = new Level[] {
-            new("第 1 話「終わりと始まり」",
+            new("第 1 幕「終わりと始まり」",
                 Resources.Load<AudioClip>("Audio/1/ABF"),
                 Resources.Load<AudioClip>("Audio/1/AFB"),
-                Npc1,
-                Npc2),
-            new("第 2 話「烏野高校排球部」",
+                Npc2,
+                Npc1),
+            new("第 2 幕「烏野高校排球部」",
                 Resources.Load<AudioClip>("Audio/2/ABF"),
                 Resources.Load<AudioClip>("Audio/2/AFB"),
                 Npc1,
                 Npc2),
-            new("第 3 話「最強の味方」",
+            new("第 3 幕「最強の味方」",
                 Resources.Load<AudioClip>("Audio/3/ABF"),
                 Resources.Load<AudioClip>("Audio/3/AFB"),
                 Npc1,
                 Npc2),
+            new("第 4 幕「決断」",
+                Resources.Load<AudioClip>("Audio/4/ABF"),
+                Resources.Load<AudioClip>("Audio/4/AFB"),
+                Npc1,
+                Npc3),
+            new("第 5 幕「センターエース」",
+                Resources.Load<AudioClip>("Audio/5/ABF"),
+                Resources.Load<AudioClip>("Audio/5/AFB"),
+                Npc3,
+                Npc1),
+            new("第 6 幕「育ち盛り」",
+                Resources.Load<AudioClip>("Audio/6/ABF"),
+                Resources.Load<AudioClip>("Audio/6/AFB"),
+                Npc3,
+                Npc1),
         };
         
         PlayBar1 = new PlayBar(NowAudio, PlayButton, PlayImage, StopImage);
@@ -262,8 +293,21 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         PlayBar1.SetAudio(NowAudio);
     }
     
+    private void HideAllNpc() {
+        Npc1.Model.SetActive(false);
+        Npc1.SpoofEffect.SetActive(false);
+        Npc1.BonaFideEffect.SetActive(false);
+        Npc2.Model.SetActive(false);
+        Npc2.SpoofEffect.SetActive(false);
+        Npc2.BonaFideEffect.SetActive(false);
+        Npc3.Model.SetActive(false);
+        Npc3.SpoofEffect.SetActive(false);
+        Npc3.BonaFideEffect.SetActive(false);
+    }
+    
     // 延遲換場景
     private void DelayChangeLevel() {
+        HideAllNpc();
         UpdateNowAudio();
         LevelMap[CurrentLevel].InitScene();
         AleadyAnswered = false;
@@ -274,7 +318,7 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         if (AleadyAnswered) return;
         
         bool isCurrent = false;
-        GameObject[] NpcModels = {Npc1.NpcObject, Npc2.NpcObject};
+        GameObject[] NpcModels = {Npc1.Hitbox, Npc2.Hitbox, Npc3.Hitbox};
         
         Ray ray = new();    // 射線
         
