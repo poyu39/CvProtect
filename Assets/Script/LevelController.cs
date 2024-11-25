@@ -76,7 +76,14 @@ public class Level {
         }
     }
     
-    public bool ShowAnswer(int ClickedNpcIndex) {
+    public bool ShowAnswer(GameObject ClickedNpcHitbox) {
+        bool isCurrent = false;
+        if (RandomAudioIndex == 0) {
+            isCurrent = Npc1.Hitbox == ClickedNpcHitbox;
+        } else {
+            isCurrent = Npc2.Hitbox == ClickedNpcHitbox;
+        }
+        
         if (RandomAudioIndex == 0) {
             Npc1.SpoofEffect.SetActive(true);
             Npc2.BonaFideEffect.SetActive(true);
@@ -84,13 +91,14 @@ public class Level {
             Npc1.BonaFideEffect.SetActive(true);
             Npc2.SpoofEffect.SetActive(true);
         }
-        if (RandomAudioIndex == ClickedNpcIndex) {
+        
+        if (isCurrent) {
             ScoreBoardTitle.GetComponent<Image>().sprite = Resources.Load<Sprite>("ScoreBoard/score_success");
         } else {
             ScoreBoardTitle.GetComponent<Image>().sprite = Resources.Load<Sprite>("ScoreBoard/score_fail");
         }
         ScoreBoardTitle.SetActive(true);
-        return RandomAudioIndex == ClickedNpcIndex;
+        return isCurrent;
     }
 }
 
@@ -346,7 +354,7 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 if (hit.collider.gameObject == NpcModels[i]) {
                     Debug.Log("Npc " + i + " clicked.");
                     
-                    isCurrent = LevelMap[CurrentLevel].ShowAnswer(i);
+                    isCurrent = LevelMap[CurrentLevel].ShowAnswer(hit.collider.gameObject);
                     AleadyAnswered = true;
                     PlayButton.GetComponent<Button>().interactable = false;
                     
