@@ -48,6 +48,7 @@ public class Level {
         this.Npc1 = Npc1;
         this.Npc2 = Npc2;
         this.TitleName = TitleName;
+        RandomAudio();
     }
     
     private void RandomAudio() {
@@ -56,7 +57,6 @@ public class Level {
     }
     
     public void InitScene() {
-        RandomAudio();
         Debug.Log("Level: " + Name + " RandomAudioIndex: " + RandomAudioIndex);
         Npc1.Model.SetActive(true);
         Npc1.SpoofEffect.SetActive(false);
@@ -99,6 +99,10 @@ public class Level {
         }
         ScoreBoardTitle.SetActive(true);
         return isCurrent;
+    }
+    
+    public void ShowNext() {
+        ScoreBoardTitle.GetComponent<Image>().sprite = Resources.Load<Sprite>("ScoreBoard/next");
     }
 }
 
@@ -286,13 +290,6 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         PlayBar1 = new PlayBar(NowAudio, PlayButton, PlayImage, StopImage);
         UpdateNowAudio();
         
-        if (NowAudio.clip == null) {
-            NowAudio.clip = LevelMap[CurrentLevel].GetAudio();
-            if (NowAudio.clip == null) {
-                Debug.LogError("Audio clip 未正確載入。請檢查 Resources 路徑。");
-            }
-        }
-        
         ExitButton.GetComponent<Button>().onClick.AddListener(ExitButtonOnClick);
         
         LevelMap[CurrentLevel].InitScene();
@@ -323,13 +320,22 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         Npc3.BonaFideEffect.SetActive(false);
     }
     
+    private void DelayShowNext() {
+        LevelMap[CurrentLevel].ShowNext();
+    }
+    
+    private void NextLevel() {
+        LevelMap[CurrentLevel].InitScene();
+        AleadyAnswered = false;
+        PlayButton.GetComponent<Button>().interactable = true;
+    }
+    
     // 延遲換場景
     private void DelayChangeLevel() {
         HideAllNpc();
         UpdateNowAudio();
-        LevelMap[CurrentLevel].InitScene();
-        AleadyAnswered = false;
-        PlayButton.GetComponent<Button>().interactable = true;
+        Invoke(nameof(DelayShowNext), 3f);
+        Invoke(nameof(NextLevel), 5f);
     }
     
     private void NpcOnClickHandler() {
@@ -362,10 +368,11 @@ public class LevelController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     CurrentLevel++;
                     if (isCurrent) ScoreBoard.score++;
                     Debug.Log("CurrentLevel: " + CurrentLevel);
+                    
                     if (CurrentLevel >= LevelMap.Length) {
-                        Invoke(nameof(SwitchToFinalScore), 5f);
+                        Invoke(nameof(SwitchToFinalScore), 3f);
                     } else {
-                        Invoke(nameof(DelayChangeLevel), 5f);
+                        Invoke(nameof(DelayChangeLevel), 3f);
                     }
                 }
             }
